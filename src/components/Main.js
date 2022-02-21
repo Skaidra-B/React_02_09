@@ -3,25 +3,25 @@ import {useSelector} from "react-redux";
 
 const Main = () => {
 
-    const mainBg = useSelector(state => state.page.value.main.bgColor)
-    const mainDir = useSelector(state => state.page.value.main.direction)
+    const state = useSelector(state => state.style.value)
 
     return (
-        <div style={{backgroundColor: mainBg}} className="main">
-            <div className={mainDir}>
-                <div>
-                    example
-                </div>
-                <div>
-                    example
-                </div>
-                <div>
-                    example
-                </div>
-                <div>
-                    example
-                </div>
+        <div style={{backgroundColor: state.mainBackgroundColor}}
+             className={`main d-flex ${state.mainDirection ? "" : "column"}`}>
+
+            <div>
+                example
             </div>
+            <div>
+                example
+            </div>
+            <div>
+                example
+            </div>
+            <div>
+                example
+            </div>
+
         </div>
 
     );

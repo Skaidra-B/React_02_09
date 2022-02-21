@@ -1,118 +1,106 @@
 import React from 'react';
 import {useRef} from 'react';
-import {addToolbar, changeToolbarImg, displayLogo, changeColor, displaySidebar, sidebarLinks, sidebarBgColor, mainBg, mainDirection} from "../features/PageSlice";
-import {useDispatch} from "react-redux";
+import {
+    setShowLogo,
+    setLogoUrl,
+    setToolbarColor,
+    addToolbarLink,
+    removeToolbarLink,
+    setShowSidebar,
+    setSidebarColor,
+    addSidebarLink,
+    removeSidebarLink,
+    changeMainDirection,
+    setMainColor
+} from "../features/PageSlice";
+import {useDispatch, useSelector} from "react-redux";
+
 
 const Modal = () => {
+
+    const state = useSelector(state => state.style.value)
 
     const dispatch = useDispatch()
 
     const inputImg = useRef()
-    const bgInput = useRef()
-    const linkInput = useRef()
-
-    const sidebarBgColorInput = useRef()
+    const toolbarLinkInput = useRef()
     const sidebarLinkInput = useRef()
 
-    const mainBgColorInput = useRef()
-
-    function changeImg() {
-        dispatch(changeToolbarImg(inputImg.current.value))
-    }
-
-    function addToolLink() {
-        dispatch(addToolbar(linkInput.current.value))
-    }
-    function changeClr() {
-        dispatch(changeColor(bgInput.current.value))
-    }
-
-    function dispLogo() {
-        dispatch(displayLogo(true))
-
-    }
-    function hideLogo() {
-        dispatch(displayLogo(false))
-
-    }
-    function dispSidebar() {
-        dispatch(displaySidebar(true))
-    }
-    function hideSidebar() {
-        dispatch(displaySidebar(false))
-    }
-
-    function changeSidebarClr() {
-        dispatch(sidebarBgColor(sidebarBgColorInput.current.value))
-    }
-    function addSidebarLinks() {
-        dispatch(sidebarLinks(sidebarLinkInput.current.value))
-    }
-    function changeMainBg() {
-        dispatch(mainBg(mainBgColorInput.current.value))
-    }
-    function mainFlex() {
-        dispatch(mainDirection("d-flex"))
-    }
-    function mainColumn() {
-        dispatch(mainDirection("d-flex column"))
-    }
 
     return (
-        <div className="modal">
-            <h3>Toolbar control</h3>
-            <div className="d-flex">
-                <button onClick={dispLogo}>Logo on</button>
-                <button onClick={hideLogo}>Logo off</button>
-            </div>
-            <div>
-                <div>Logo image</div>
+        <div>
+            <div className="modal">
+                <h3>Toolbar control</h3>
                 <div className="d-flex">
-                    <input ref={inputImg} type="text" placeholder="image"/>
-                    <button onClick={changeImg}>Add image</button>
-                </div>
-            </div>
-            <div>
-                <div>Toolbar background color</div>
-                <div className="d-flex">
-                    <input ref={bgInput} type="text" placeholder="color"/>
-                    <button onClick={changeClr}>Add bg</button>
-                </div>
-            </div>
-            <div>
-                <div>Toolbar links</div>
-                <div className="d-flex">
-                    <input ref={linkInput} type="text" placeholder="link"/>
-                    <button onClick={addToolLink}>Add link</button>
-                </div>
-            </div>
-            <h3>Sidebar control</h3>
-            <div className="d-flex">
-                <button onClick={dispSidebar}>Sidebar on</button>
-                <button onClick={hideSidebar}>Sidebar off</button>
-            </div>
-            <div>Sidebar background color</div>
-            <div className="d-flex">
-                <input ref={sidebarBgColorInput} type="text" placeholder="color"/>
-                <button onClick={changeSidebarClr}>Add bg</button>
-            </div>
-            <div>Sidebar links</div>
-            <div className="d-flex">
-                <input ref={sidebarLinkInput} type="text" placeholder="link"/>
-                <button onClick={addSidebarLinks}>Add link</button>
-            </div>
-            <h3>Main control</h3>
-            <div className="d-flex">
-                <input ref={mainBgColorInput} type="text" placeholder="color"/>
-                <button onClick={changeMainBg}>Add bg</button>
-            </div>
-            <div>Main direction</div>
-            <div className="d-flex">
-                <button onClick={mainFlex}>Flex</button>
-                <button onClick={mainColumn}>Column</button>
-            </div>
+                    <label htmlFor="logoCheck">Show logo</label>
+                    <input onChange={() => dispatch(setShowLogo())} id="logoCheck" type="checkbox"/>
 
+                </div>
+                <div>
+                    <div className="d-flex">
+                        <input ref={inputImg} type="text" placeholder="image"/>
+                        <button onClick={() => dispatch(setLogoUrl(inputImg.current.value))}>Set Logo</button>
+                    </div>
+                </div>
+                <div>
+                    <div>Toolbar background color</div>
+                    <div className="d-flex">
+                        <input type="color" onChange={(e) => dispatch(setToolbarColor(e.target.value))}
+                               placeholder="color"/>
+                    </div>
+                </div>
+                <div>
+                    <div>Toolbar links</div>
+                    <div className="d-flex">
+                        <div>
+                            <input ref={toolbarLinkInput} type="text" placeholder="link"/>
+                            <button onClick={() => dispatch(addToolbarLink(toolbarLinkInput.current.value))}>Add link
+                            </button>
+                        </div>
+                        <div className="d-flex column">
+                            {state.toolbarLinks.map((x, i) => <div key={i} className="d-flex">
+                                <div>{x}</div>
+                                <button onClick={() => dispatch(removeToolbarLink(i))}>Del</button>
+                            </div>)}
+                        </div>
+                    </div>
+                </div>
+
+
+                <h3>Sidebar control</h3>
+                <div className="d-flex">
+                    <label htmlFor="sidebarCheck">Show sidebar</label>
+                    <input onChange={() => dispatch(setShowSidebar())} id="sidebarCheck" type="checkbox"/>
+                </div>
+                <div>Sidebar background color</div>
+                <div className="d-flex">
+                    <input type="color" placeholder="sidebar color"
+                           onChange={(e) => dispatch(setSidebarColor(e.target.value))}/>
+                </div>
+                <div>Sidebar links</div>
+                <div className="d-flex">
+                    <input ref={sidebarLinkInput} type="text" placeholder="sidebar link"/>
+                    <button onClick={() => dispatch(addSidebarLink(sidebarLinkInput.current.value))}>Add link</button>
+                </div>
+                <div className="d-flex column">
+                    {state.sidebarLinks.map((x, i) => <div key={i} className="d-flex">
+                        <div>{x}</div>
+                        <button onClick={() => dispatch(removeSidebarLink(i))}>Del</button>
+                    </div>)}
+
+                    <h3>Main control</h3>
+                    <div className="d-flex">
+                        <input type="color" placeholder="main color"
+                               onChange={(e) => dispatch(setMainColor(e.target.value))}/>
+                    </div>
+                    <div className="d-flex">
+                        <label htmlFor="mainCheck">Direction</label>
+                        <input onChange={() => dispatch(changeMainDirection())} id="mainCheck" type="checkbox"/>
+                    </div>
+                </div>
+            </div>
         </div>
+
     );
 };
 

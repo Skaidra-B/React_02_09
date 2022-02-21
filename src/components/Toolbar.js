@@ -1,36 +1,23 @@
 import React from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {modalDisplay} from "../features/PageSlice";
+import {
+    setShowModal
+} from "../features/PageSlice";
 
 const Toolbar = () => {
 
-    const toolbarLinks = useSelector(state => state.page.value.toolbar.links)
-    const toolbarBg = useSelector(state => state.page.value.toolbar.bgColor)
-    const toolbarImg = useSelector(state => state.page.value.toolbar.image)
-    const display = useSelector(state => state.page.value.toolbar.display)
+    const state = useSelector(state => state.style.value)
 
     const dispatch = useDispatch()
 
-    let trigger = true
-
-    function showModal() {
-        if(trigger) {
-            dispatch(modalDisplay(true))
-            trigger = !trigger
-        } else {
-            dispatch(modalDisplay(false))
-            trigger = !trigger
-        }
-    }
-
     return (
         <div className="toolbar">
-            <div className="d-flex space-btw" style={{backgroundColor: toolbarBg}}>
+            <div className="d-flex space-btw" style={{backgroundColor: state.toolbarColor}}>
                 <div className="d-flex">
-                    {display ? <img src={toolbarImg} alt=""/> : <img/>}
-                    {toolbarLinks.map((x, i) => <div key={i}>{x}</div>)}
+                    {!state.showLogo && <img src={state.logoUrl} alt=""/>}
+                    {state.toolbarLinks.map((x, i) => <a href="/" key={i}>{x}</a>)}
                 </div>
-                <button className="btn" onClick={showModal}>Control</button>
+                <button className="btn" onClick={() => dispatch(setShowModal())}>Control</button>
             </div>
         </div>
     );

@@ -6,11 +6,11 @@ import reportWebVitals from './reportWebVitals';
 import {configureStore} from "@reduxjs/toolkit";
 import {Provider} from 'react-redux';
 
-import pageReducer from './features/PageSlice'
+import styleReducer from './features/PageSlice'
 
 const store = configureStore({
     reducer: {
-        page: pageReducer
+        style: styleReducer
     },
 });
 

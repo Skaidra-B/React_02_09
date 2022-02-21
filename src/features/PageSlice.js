@@ -2,67 +2,80 @@ import {createSlice} from "@reduxjs/toolkit";
 
 export const pageSlice = createSlice({
 
-    name: "page",
+    name: "style",
     initialState: {
         value: {
-            toolbar:
-                {
-                    image: "https://cdn.logo.com/hotlink-ok/logo-social.png",
-                    bgColor: "green",
-                    links: [],
-                    display: true
-                }
-            ,
-            sidebar: {
-                display: true,
-                bgColor: "pink",
-                links: []
-            },
-            main: {
-                bgColor: "grey",
-                direction: "d-flex"
-            },
-            modal: {
-                display: false
-            }
+            showLogo: true,
+            logoUrl: "https://cdn.logo.com/hotlink-ok/logo-social.png",
+            toolbarColor: "#eeeeee",
+            toolbarLinks: [],
+
+            showSidebar: true,
+            sidebarColor: "#e1e1e1",
+            sidebarLinks: [],
+
+            mainDirection: true,
+            mainBackgroundColor: "pink",
+
+            showModal: false
         }
     },
     reducers: {
-        addToolbar: (state, action) => {
-            state.value.toolbar.links.push(action.payload)
+        setShowLogo: (state, action) => {
+            state.value.showLogo = !state.value.showLogo
         },
-        changeToolbarImg: (state, action) => {
-            state.value.toolbar.image = action.payload
+        setLogoUrl: (state, action) => {
+            state.value.logoUrl = action.payload
         },
-        changeColor: (state, action) => {
-            state.value.toolbar.bgColor = action.payload
+        setToolbarColor: (state, action) => {
+            state.value.toolbarColor = action.payload
         },
-        displayLogo: (state, action) => {
-            state.value.toolbar.display = action.payload
+        addToolbarLink: (state, action) => {
+            state.value.toolbarLinks.push(action.payload)
         },
-
-        displaySidebar: (state, action) => {
-            state.value.sidebar.display = action.payload
-        },
-        sidebarLinks: (state, action) => {
-            state.value.sidebar.links.push(action.payload)
-        },
-        sidebarBgColor: (state, action) => {
-            state.value.sidebar.bgColor = action.payload
+        removeToolbarLink: (state, action) => {
+            state.value.toolbarLinks = state.value.toolbarLinks.filter((x, i) => i !== action.payload)
         },
 
-        mainBg: (state, action) => {
-            state.value.main.bgColor = action.payload
+        setShowSidebar: (state, action) => {
+            state.value.showSidebar = !state.value.showSidebar
         },
-        mainDirection: (state, action) => {
-            state.value.main.direction = action.payload
+        setSidebarColor: (state, action) => {
+            state.value.sidebarColor = action.payload
         },
-        modalDisplay: (state, action) => {
-            state.value.modal.display = action.payload
+        addSidebarLink: (state, action) => {
+            state.value.sidebarLinks.push(action.payload)
+        },
+        removeSidebarLink: (state, action) => {
+            state.value.sidebarLinks = state.value.sidebarLinks.filter((x, i) => i !== action.payload)
         },
 
+        changeMainDirection: (state, action) => {
+            state.value.mainDirection = !state.value.mainDirection
+        },
+        setMainColor: (state, action) => {
+            state.value.mainBackgroundColor = action.payload
+        },
+
+        setShowModal: (state, action) => {
+            state.value.showModal = !state.value.showModal
+        }
     }
 });
 
-export const {addToolbar, changeToolbarImg, changeColor, displayLogo, displaySidebar, sidebarLinks, sidebarBgColor, mainBg, mainDirection, modalDisplay} = pageSlice.actions;
+export const {
+    setShowLogo,
+    setLogoUrl,
+    setToolbarColor,
+    addToolbarLink,
+    removeToolbarLink,
+    setShowSidebar,
+    setSidebarColor,
+    addSidebarLink,
+    removeSidebarLink,
+    changeMainDirection,
+    setMainColor,
+    setShowModal
+
+} = pageSlice.actions;
 export default pageSlice.reducer;

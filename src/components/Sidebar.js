@@ -3,17 +3,15 @@ import {useSelector} from "react-redux";
 
 const Sidebar = () => {
 
-    const display = useSelector(state => state.page.value.sidebar.display)
-    const sidebarBg = useSelector(state => state.page.value.sidebar.bgColor)
-    const sidebarLink = useSelector(state => state.page.value.sidebar.links)
+    const state = useSelector(state => state.style.value)
 
     return (
         <div>
-            {display ? <div style={{backgroundColor: sidebarBg}} className="sidebar d-flex column">
+            {state.showSidebar && <div style={{backgroundColor: state.sidebarColor}} className="sidebar d-flex column">
                 <div>
-                    {sidebarLink.map((x, i) => <div key={i}>{x}</div>)}
+                    {state.sidebarLinks.map((x, i) => <a href="/" key={i}>{x}</a>)}
                 </div>
-            </div> : null}
+            </div>}
         </div>
 
     );
